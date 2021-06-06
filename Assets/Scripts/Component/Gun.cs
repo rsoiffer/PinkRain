@@ -32,14 +32,19 @@ namespace PinkRain.Component
         {
             if (ammo > 0 && !shooting && Input.GetMouseButton(0))
             {
-                if (!(reloading is null))
-                {
-                    StopCoroutine(reloading);
-                }
-
-                StartCoroutine(Shoot());
-                reloading = StartCoroutine(Reload());
+                ShootThenReload();
             }
+        }
+
+        private void ShootThenReload()
+        {
+            if (!(reloading is null))
+            {
+                StopCoroutine(reloading);
+            }
+
+            StartCoroutine(Shoot());
+            reloading = StartCoroutine(Reload());
         }
 
         private IEnumerator Shoot()
