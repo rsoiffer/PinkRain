@@ -1,5 +1,4 @@
 using System.Collections;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace PinkRain
@@ -12,11 +11,11 @@ namespace PinkRain
         private const float ReloadTime = 0.5f;
         private const float Spread = 5;
 
-        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject? bulletPrefab;
 
         private int ammo = ClipSize;
         private Hand hand;
-        [CanBeNull] private Coroutine reloading;
+        private Coroutine? reloading;
         private bool shooting;
 
         private enum Hand
@@ -57,6 +56,8 @@ namespace PinkRain
 
         private void SpawnBullet()
         {
+            Requires.NotNull(bulletPrefab, nameof(bulletPrefab));
+
             var position = transform.position + (hand == Hand.Left ? Vector3.up : Vector3.down) / 3;
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
 
