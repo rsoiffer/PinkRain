@@ -31,7 +31,7 @@ namespace PinkRain
 
         private void Shoot()
         {
-            const float speed = 10;
+            const float speed = 15;
 
             var position = transform.position;
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
