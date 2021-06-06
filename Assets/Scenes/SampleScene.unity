@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &339016125 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3964006052485721541, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
+  m_PrefabInstance: {fileID: 412671730}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &412671730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d0e62721e731a47916713e45e4ef50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 339016125}
   lerpSpeed: 10
 --- !u!20 &519420031
 Camera:
