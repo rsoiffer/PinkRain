@@ -5,13 +5,19 @@ namespace PinkRain
 {
     public class Gun : MonoBehaviour
     {
+        private const float BulletSpeed = 15;
+        private const int ClipSize = 100;
+        private const float FireRate = 20;
+        private const float ReloadTime = 1;
+
         [SerializeField] private GameObject bulletPrefab;
 
-        private bool cycling;
+        private int ammo = ClipSize;
+        private bool shooting;
 
         private void Update()
         {
-            if (!cycling && Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0))
             {
                 StartCoroutine(Shoot());
             }
@@ -19,8 +25,10 @@ namespace PinkRain
 
         private IEnumerator Shoot()
         {
-            const float speed = 15;
-            const float fireRate = 20;
+            if (ammo <= 0 || shooting)
+            {
+                yield break;
+            }
 
             var position = transform.position;
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
@@ -28,11 +36,26 @@ namespace PinkRain
             var rotation = Quaternion.FromToRotation(Vector3.right, direction);
 
             var bullet = Instantiate(bulletPrefab, position, rotation);
-            bullet.GetComponent<Rigidbody2D>().velocity = speed * direction;
+            bullet.GetComponent<Rigidbody2D>().velocity = BulletSpeed * direction;
 
-            cycling = true;
-            yield return new WaitForSeconds(1 / fireRate);
-            cycling = false;
+            ammo--;
+            yield return Ready();
+        }
+
+        private IEnumerator Ready()
+        {
+            shooting = true;
+            if (ammo <= 0)
+            {
+                yield return new WaitForSeconds(ReloadTime);
+                ammo = ClipSize;
+            }
+            else
+            {
+                yield return new WaitForSeconds(1 / FireRate);
+            }
+
+            shooting = false;
         }
     }
 }
