@@ -5,7 +5,7 @@ namespace PinkRain.Component
 {
     public class PlayerControl : MonoBehaviour
     {
-        [SerializeField] private float Speed = 6;
+        [SerializeField] private float speed = 8;
 
         private new Rigidbody2D? rigidbody2D;
 
@@ -20,7 +20,7 @@ namespace PinkRain.Component
             var x = Input.GetKey(KeyCode.A) ? -1 : Input.GetKey(KeyCode.D) ? 1 : 0;
             var y = Input.GetKey(KeyCode.W) ? 1 : Input.GetKey(KeyCode.S) ? -1 : 0;
             var direction = new Vector2(x, y).normalized;
-            rigidbody2D.velocity = Speed * direction;
+            rigidbody2D.velocity = speed * direction;
         }
     }
 }

@@ -68,16 +68,23 @@ namespace PinkRain.Component
             Requires.NotNull(bulletPrefab, nameof(bulletPrefab));
             Requires.NotNull(camera, nameof(camera));
 
-            var position = transform.position + (hand == Hand.Left ? Vector3.up : Vector3.down) / 3;
+            var position = transform.position;
             var target = camera.ScreenToWorldPoint(Input.mousePosition);
+            var rotation = AimRotation(position, target);
 
-            var targetDirection = ((Vector2) target - (Vector2) position).normalized;
-            var angle = Vector2.SignedAngle(Vector2.right, targetDirection) + Spread * (Random.value - 0.5f);
-            var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            var direction = rotation * Vector3.right;
+            var handPosition = position + rotation * (hand == Hand.Left ? Vector3.up : Vector3.down) / 3;
+            var inaccuracy = Quaternion.AngleAxis(Spread * (Random.value - 0.5f), Vector3.forward);
+            var handRotation = inaccuracy * AimRotation(handPosition, target);
 
-            var bullet = Instantiate(bulletPrefab, position, rotation);
-            bullet.GetComponent<Rigidbody2D>().velocity = direction * BulletSpeed;
+            var bullet = Instantiate(bulletPrefab, handPosition, handRotation);
+            bullet.GetComponent<Rigidbody2D>().velocity = handRotation * Vector3.right * BulletSpeed;
+        }
+
+        private static Quaternion AimRotation(Vector2 origin, Vector2 target)
+        {
+            var direction = (target - origin).normalized;
+            var angle = Vector2.SignedAngle(Vector2.right, direction);
+            return Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
 }
