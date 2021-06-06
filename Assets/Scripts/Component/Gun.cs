@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace PinkRain
+namespace PinkRain.Component
 {
     public class Gun : MonoBehaviour
     {
