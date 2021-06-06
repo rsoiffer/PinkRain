@@ -56,7 +56,7 @@ namespace PinkRain.Component
                         var pos = new Vector2(
                             Random.Range(r.lowerLeft.x, r.upperRight.x + 1),
                             Random.Range(r.lowerLeft.y, r.upperRight.y + 1));
-                        var enemy = Instantiate(enemyPrefab);
+                        var enemy = Instantiate(enemyPrefab, transform);
                         enemy.transform.position = pos + 0.5f * Vector2.one;
                     }
                 }
