@@ -62,7 +62,6 @@ namespace PinkRain
 
             var targetDirection = ((Vector2) target - (Vector2) position).normalized;
             var angle = Vector2.SignedAngle(Vector2.right, targetDirection) + Spread * (Random.value - 0.5f);
-
             var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             var direction = rotation * Vector3.right;
 
