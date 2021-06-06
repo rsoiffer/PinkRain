@@ -23,15 +23,17 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
-        var toTarget = player!.transform.position - transform.position;
-        if (!Physics2D.Raycast(transform.position, toTarget,
-            toTarget.magnitude, 1 << 6))
+        if (player != null)
         {
-            myRigidbody2D!.AddForce(walkForce * toTarget.normalized);
-            if (!shooting)
+            var toTarget = player!.transform.position - transform.position;
+            if (!Physics2D.Raycast(transform.position, toTarget,
+                toTarget.magnitude, 1 << 6))
             {
-                StartCoroutine(Shoot(toTarget));
+                myRigidbody2D!.AddForce(walkForce * toTarget.normalized);
+                if (!shooting)
+                {
+                    StartCoroutine(Shoot(toTarget));
+                }
             }
         }
 
