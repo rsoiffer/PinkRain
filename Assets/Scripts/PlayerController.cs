@@ -36,7 +36,9 @@ namespace PinkRain
 
             var position = transform.position;
             var bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
-            var direction = (Camera.main!.ScreenToWorldPoint(Input.mousePosition) - position).normalized;
+
+            var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
+            var direction = ((Vector2)target - (Vector2)position).normalized;
             bullet.GetComponent<Rigidbody2D>().velocity = speed * direction;
         }
     }
