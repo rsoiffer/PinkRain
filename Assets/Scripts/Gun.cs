@@ -1,4 +1,5 @@
 using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace PinkRain
@@ -13,23 +14,40 @@ namespace PinkRain
         [SerializeField] private GameObject bulletPrefab;
 
         private int ammo = ClipSize;
+        [CanBeNull] private Coroutine reloading;
         private bool shooting;
 
         private void Update()
         {
-            if (Input.GetMouseButton(0))
+            if (ammo > 0 && !shooting && Input.GetMouseButton(0))
             {
+                if (!(reloading is null))
+                {
+                    StopCoroutine(reloading);
+                }
+
                 StartCoroutine(Shoot());
+                reloading = StartCoroutine(Reload());
             }
         }
 
         private IEnumerator Shoot()
         {
-            if (ammo <= 0 || shooting)
-            {
-                yield break;
-            }
+            shooting = true;
+            ammo--;
+            SpawnBullet();
+            yield return new WaitForSeconds(1 / FireRate);
+            shooting = false;
+        }
 
+        private IEnumerator Reload()
+        {
+            yield return new WaitForSeconds(ReloadTime);
+            ammo = ClipSize;
+        }
+
+        private void SpawnBullet()
+        {
             var position = transform.position;
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
             var direction = ((Vector2) target - (Vector2) position).normalized;
@@ -37,25 +55,6 @@ namespace PinkRain
 
             var bullet = Instantiate(bulletPrefab, position, rotation);
             bullet.GetComponent<Rigidbody2D>().velocity = BulletSpeed * direction;
-
-            ammo--;
-            yield return Ready();
-        }
-
-        private IEnumerator Ready()
-        {
-            shooting = true;
-            if (ammo <= 0)
-            {
-                yield return new WaitForSeconds(ReloadTime);
-                ammo = ClipSize;
-            }
-            else
-            {
-                yield return new WaitForSeconds(1 / FireRate);
-            }
-
-            shooting = false;
         }
     }
 }
