@@ -1,3 +1,4 @@
+using PinkRain.Utility;
 using UnityEngine;
 
 namespace PinkRain.Component

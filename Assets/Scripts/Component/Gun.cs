@@ -1,4 +1,5 @@
 using System.Collections;
+using PinkRain.Utility;
 using UnityEngine;
 
 namespace PinkRain.Component

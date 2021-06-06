@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace PinkRain
+namespace PinkRain.Utility
 {
     internal static class Requires
     {
