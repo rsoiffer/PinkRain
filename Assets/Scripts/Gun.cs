@@ -57,18 +57,17 @@ namespace PinkRain
 
         private void SpawnBullet()
         {
-            var position = transform.position;
+            var position = transform.position + (hand == Hand.Left ? Vector3.up : Vector3.down) / 3;
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
 
             var targetDirection = ((Vector2) target - (Vector2) position).normalized;
-            var angle = Spread * (Random.value - 0.5f) + Vector2.SignedAngle(Vector2.right, targetDirection);
+            var angle = Vector2.SignedAngle(Vector2.right, targetDirection) + Spread * (Random.value - 0.5f);
 
             var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             var direction = rotation * Vector3.right;
-            var offset = rotation * ((hand == Hand.Left ? Vector3.up : Vector3.down) / 3);
 
-            var bullet = Instantiate(bulletPrefab, position + offset, rotation);
-            bullet.GetComponent<Rigidbody2D>().velocity = BulletSpeed * direction;
+            var bullet = Instantiate(bulletPrefab, position, rotation);
+            bullet.GetComponent<Rigidbody2D>().velocity = direction * BulletSpeed;
         }
     }
 }
