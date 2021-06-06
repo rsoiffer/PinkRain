@@ -13,7 +13,6 @@ namespace PinkRain
         private void Update()
         {
             Move();
-
             if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
@@ -35,10 +34,11 @@ namespace PinkRain
             const float speed = 10;
 
             var position = transform.position;
-            var bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
-
             var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
             var direction = ((Vector2)target - (Vector2)position).normalized;
+            var rotation = Quaternion.FromToRotation(Vector3.right, direction);
+
+            var bullet = Instantiate(bulletPrefab, position, rotation);
             bullet.GetComponent<Rigidbody2D>().velocity = speed * direction;
         }
     }
