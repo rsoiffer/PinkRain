@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PinkRain
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControl : MonoBehaviour
     {
         private new Rigidbody2D rigidbody2D;
 
