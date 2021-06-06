@@ -5,7 +5,7 @@ namespace PinkRain.Component
 {
     public class PlayerControl : MonoBehaviour
     {
-        private const float Speed = 6;
+        [SerializeField] private float Speed = 6;
 
         private new Rigidbody2D? rigidbody2D;
 
