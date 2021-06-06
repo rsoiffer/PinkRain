@@ -6,9 +6,9 @@ namespace PinkRain
     public class Gun : MonoBehaviour
     {
         private const float BulletSpeed = 15;
-        private const int ClipSize = 100;
+        private const int ClipSize = 16;
         private const float FireRate = 20;
-        private const float ReloadTime = 1;
+        private const float ReloadTime = 0.5f;
 
         [SerializeField] private GameObject bulletPrefab;
 
