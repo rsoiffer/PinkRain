@@ -15,6 +15,7 @@ namespace PinkRain.Component
         [SerializeField] private GameObject? bulletPrefab;
 
         private int ammo = ClipSize;
+        private new Camera? camera;
         private Hand hand;
         private Coroutine? reloading;
         private bool shooting;
@@ -24,6 +25,8 @@ namespace PinkRain.Component
             Left,
             Right
         }
+
+        private void Start() => camera = Camera.main;
 
         private void Update()
         {
@@ -58,9 +61,10 @@ namespace PinkRain.Component
         private void SpawnBullet()
         {
             Requires.NotNull(bulletPrefab, nameof(bulletPrefab));
+            Requires.NotNull(camera, nameof(camera));
 
             var position = transform.position + (hand == Hand.Left ? Vector3.up : Vector3.down) / 3;
-            var target = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
+            var target = camera.ScreenToWorldPoint(Input.mousePosition);
 
             var targetDirection = ((Vector2) target - (Vector2) position).normalized;
             var angle = Vector2.SignedAngle(Vector2.right, targetDirection) + Spread * (Random.value - 0.5f);
