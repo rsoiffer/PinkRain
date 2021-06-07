@@ -198,11 +198,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168221715}
   m_CullTransparentMesh: 1
---- !u!1 &203506728 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3964006052485721542, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
+--- !u!114 &203506729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2620497550043555493, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
   m_PrefabInstance: {fileID: 3964006052550781422}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f32371f9fb60b4495bc85546089e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &203506731 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3964006052485721541, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
@@ -890,7 +896,7 @@ MonoBehaviour:
   wall: {fileID: 11400000, guid: f5945c4f4a016ae419bd0fb1152e2d1a, type: 2}
   grass: {fileID: 11400000, guid: 7b6e368fc0ee90b4ca09e0f71344589a, type: 2}
   tilemap: {fileID: 778983024}
-  player: {fileID: 203506728}
+  characterPicker: {fileID: 203506729}
   winLevel: {fileID: 1589998132}
   enemyPrefab: {fileID: 7142051089020737959, guid: 0fda2f2883797274ab1774b1ebc45af0, type: 3}
 --- !u!4 &1207364998
@@ -1348,6 +1354,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2620497550043555493, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 1985811011}
     - target: {fileID: 3964006052485721541, guid: d5ee37f3a6792ad4daaad972083933a9, type: 3}
       propertyPath: m_RootOrder
       value: 1

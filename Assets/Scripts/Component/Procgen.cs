@@ -11,7 +11,7 @@ namespace PinkRain.Component
         public Tile? wall;
         public Tile? grass;
         public Tilemap? tilemap;
-        public GameObject? player;
+        public CharacterPicker? characterPicker;
         public GameObject? winLevel;
 
         public GameObject? enemyPrefab;
@@ -66,7 +66,7 @@ namespace PinkRain.Component
             var playerPos = new Vector2(
                 Random.Range(playerRoom.lowerLeft.x, playerRoom.upperRight.x + 1),
                 Random.Range(playerRoom.lowerLeft.y, playerRoom.upperRight.y + 1));
-            player!.transform.position = playerPos + 0.5f * Vector2.one;
+            characterPicker!.ActiveCharacter!.transform.position = playerPos + 0.5f * Vector2.one;
 
             var winLevelRoom = allRooms[Random.Range(0, allRooms.Count)];
             var winLevelPos = new Vector2(
@@ -267,6 +267,7 @@ namespace PinkRain.Component
             }
 
             public Vector2Int size => Vector2Int.Max(upperRight - lowerLeft + new Vector2Int(1, 1), Vector2Int.zero);
-            public int area => size.x * size.y; }
+            public int area => size.x * size.y;
+        }
     }
 }
