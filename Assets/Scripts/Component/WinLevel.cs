@@ -10,7 +10,7 @@ namespace PinkRain.Component
         {
             if (other.gameObject.name == "Player")
             {
-                procgen!.Generate();
+                StartCoroutine(procgen!.Generate());
             }
         }
     }

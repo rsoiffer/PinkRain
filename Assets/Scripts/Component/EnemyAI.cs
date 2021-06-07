@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -14,11 +15,17 @@ public class EnemyAI : MonoBehaviour
     public bool shooting;
 
     private Rigidbody2D? myRigidbody2D;
+    private NavMeshAgent? myNavMeshAgent;
 
     private void Start()
     {
         player = GameObject.Find("Player");
         myRigidbody2D = GetComponent<Rigidbody2D>();
+        myNavMeshAgent = GetComponent<NavMeshAgent>();
+
+        myNavMeshAgent.enabled = true;
+        myNavMeshAgent.updateRotation = false;
+        myNavMeshAgent.updateUpAxis = false;
     }
 
     void Update()
@@ -29,7 +36,8 @@ public class EnemyAI : MonoBehaviour
             if (!Physics2D.Raycast(transform.position, toTarget,
                 toTarget.magnitude, 1 << 6))
             {
-                myRigidbody2D!.AddForce(walkForce * toTarget.normalized);
+                myNavMeshAgent!.SetDestination(player!.transform.position);
+                // myRigidbody2D!.AddForce(walkForce * toTarget.normalized);
                 if (!shooting)
                 {
                     StartCoroutine(Shoot(toTarget));
@@ -37,7 +45,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        myRigidbody2D!.AddForce(-walkDamping * myRigidbody2D.velocity);
+        // myRigidbody2D!.AddForce(-walkDamping * myRigidbody2D.velocity);
     }
 
     IEnumerator Shoot(Vector3 toTarget)
