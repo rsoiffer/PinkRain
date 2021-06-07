@@ -70,7 +70,7 @@ namespace PinkRain.Component
             var playerPos = new Vector2(
                 Random.Range(playerRoom.lowerLeft.x, playerRoom.upperRight.x + 1),
                 Random.Range(playerRoom.lowerLeft.y, playerRoom.upperRight.y + 1));
-            characterPicker!.ActiveCharacter!.transform.position = playerPos + 0.5f * Vector2.one;
+            characterPicker!.Active.transform.position = playerPos + 0.5f * Vector2.one;
 
             var winLevelRoom = allRooms[Random.Range(0, allRooms.Count)];
             var winLevelPos = new Vector2(

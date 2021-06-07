@@ -21,8 +21,9 @@ namespace PinkRain.Component
         [SerializeField] private Slider? healthSlider;
 
         private readonly List<GameObject> characters = new List<GameObject>();
+        private int index;
 
-        public GameObject? ActiveCharacter { get; private set; }
+        public GameObject Active => characters[index];
 
         private void Awake()
         {
@@ -33,30 +34,38 @@ namespace PinkRain.Component
                 characters.Add(character);
             }
 
-            Activate(characters.First());
+            Activate(0);
         }
 
         private void Update()
         {
             if (CharacterKeyDown() is { } index && index < characters.Count && characters[index])
             {
-                Activate(characters[index]);
+                Activate(index);
             }
-
-            if (ActiveCharacter)
+            else if (Active)
             {
-                transform.position = ActiveCharacter!.transform.position;
+                transform.position = Active.transform.position;
+            }
+            else if (this.index < characters.Count - 1)
+            {
+                Activate(this.index + 1);
             }
         }
 
-        private void Activate(GameObject character)
+        private void Activate(int index)
         {
-            ActiveCharacter = character;
-            ActiveCharacter.transform.position = transform.position;
-            foreach (var c in characters.Where(c => c))
+            var liveCharacters = characters
+                .Select((character, i) => (character, i))
+                .Where(item => item.character);
+
+            foreach (var (character, i) in liveCharacters)
             {
-                c.SetActive(c == ActiveCharacter);
+                character.SetActive(index == i);
             }
+
+            this.index = index;
+            Active.transform.position = transform.position;
         }
 
         private static int? CharacterKeyDown()
