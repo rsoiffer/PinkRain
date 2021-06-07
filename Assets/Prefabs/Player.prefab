@@ -174,5 +174,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  currentHealth: 0
   uiSlider: {fileID: 0}
+  damageEffectPrefab: {fileID: 9214197102987895726, guid: 54a5f38dd5aca8549974ac19bf5613b1, type: 3}

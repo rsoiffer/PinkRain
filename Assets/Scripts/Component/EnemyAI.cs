@@ -7,22 +7,22 @@ public class EnemyAI : MonoBehaviour
     public GameObject? player;
     public GameObject? bulletPrefab;
 
-    public float walkForce = 10;
-    public float walkDamping = 10;
-
     public float bulletSpeed = 20;
     public float shotCooldown = 1;
     public bool shooting;
 
-    private Rigidbody2D? myRigidbody2D;
+    public float maxAlertTime = 5;
+
+    public float currentAlertTime;
+    private Vector2 lastKnownPlayerPos;
+
     private NavMeshAgent? myNavMeshAgent;
 
     private void Start()
     {
         player = GameObject.Find("Player");
-        myRigidbody2D = GetComponent<Rigidbody2D>();
-        myNavMeshAgent = GetComponent<NavMeshAgent>();
 
+        myNavMeshAgent = GetComponent<NavMeshAgent>();
         myNavMeshAgent.enabled = true;
         myNavMeshAgent.updateRotation = false;
         myNavMeshAgent.updateUpAxis = false;
@@ -36,16 +36,22 @@ public class EnemyAI : MonoBehaviour
             if (!Physics2D.Raycast(transform.position, toTarget,
                 toTarget.magnitude, 1 << 6))
             {
-                myNavMeshAgent!.SetDestination(player!.transform.position);
-                // myRigidbody2D!.AddForce(walkForce * toTarget.normalized);
+                currentAlertTime = maxAlertTime;
+                lastKnownPlayerPos = player!.transform.position;
+                myNavMeshAgent!.SetDestination(transform.position);
+
                 if (!shooting)
                 {
                     StartCoroutine(Shoot(toTarget));
                 }
             }
+            else if (currentAlertTime > 0)
+            {
+                myNavMeshAgent!.SetDestination(lastKnownPlayerPos);
+            }
         }
 
-        // myRigidbody2D!.AddForce(-walkDamping * myRigidbody2D.velocity);
+        currentAlertTime -= Time.deltaTime;
     }
 
     IEnumerator Shoot(Vector3 toTarget)
