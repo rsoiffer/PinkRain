@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PinkRain.Utility;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 namespace PinkRain.Component
@@ -13,6 +15,7 @@ namespace PinkRain.Component
         public Tilemap? tilemap;
         public CharacterPicker? characterPicker;
         public GameObject? winLevel;
+        public NavMeshSurface2d? navMesh;
 
         public GameObject? enemyPrefab;
 
@@ -20,10 +23,10 @@ namespace PinkRain.Component
 
         private void Start()
         {
-            Generate();
+            StartCoroutine(Generate());
         }
 
-        public void Generate()
+        public IEnumerator Generate()
         {
             if (currentLevel != null)
             {
@@ -61,6 +64,7 @@ namespace PinkRain.Component
             FillRoom(baseRoom, wall);
             foreach (var r in allRooms) FillRoom(r, null);
             foreach (var door in doors) FillRoom(door, null);
+            navMesh!.BuildNavMesh();
 
             var playerRoom = allRooms[Random.Range(0, allRooms.Count)];
             var playerPos = new Vector2(
@@ -73,6 +77,8 @@ namespace PinkRain.Component
                 Random.Range(winLevelRoom.lowerLeft.x, winLevelRoom.upperRight.x + 1),
                 Random.Range(winLevelRoom.lowerLeft.y, winLevelRoom.upperRight.y + 1));
             winLevel!.transform.position = winLevelPos + 0.5f * Vector2.one;
+
+            yield return new WaitForEndOfFrame();
 
             foreach (var r in allRooms)
             {
