@@ -10,13 +10,29 @@ namespace PinkRain.Component
     {
         public Tile? wall;
         public Tile? grass;
-
         public Tilemap? tilemap;
+        public GameObject? player;
+        public GameObject? winLevel;
 
         public GameObject? enemyPrefab;
 
-        void Start()
+        private GameObject? currentLevel;
+
+        private void Start()
         {
+            Generate();
+        }
+
+        public void Generate()
+        {
+            if (currentLevel != null)
+            {
+                Destroy(currentLevel);
+            }
+
+            currentLevel = new GameObject();
+            currentLevel.transform.parent = transform;
+
             Requires.NotNull(enemyPrefab, nameof(enemyPrefab));
 
             var baseRoom = new Room
@@ -43,28 +59,35 @@ namespace PinkRain.Component
             allRooms = Component(allRooms.Find(r => r.hallway)).ToList();
 
             FillRoom(baseRoom, wall);
+            foreach (var r in allRooms) FillRoom(r, null);
+            foreach (var door in doors) FillRoom(door, null);
+
+            var playerRoom = allRooms[Random.Range(0, allRooms.Count)];
+            var playerPos = new Vector2(
+                Random.Range(playerRoom.lowerLeft.x, playerRoom.upperRight.x + 1),
+                Random.Range(playerRoom.lowerLeft.y, playerRoom.upperRight.y + 1));
+            player!.transform.position = playerPos + 0.5f * Vector2.one;
+
+            var winLevelRoom = allRooms[Random.Range(0, allRooms.Count)];
+            var winLevelPos = new Vector2(
+                Random.Range(winLevelRoom.lowerLeft.x, winLevelRoom.upperRight.x + 1),
+                Random.Range(winLevelRoom.lowerLeft.y, winLevelRoom.upperRight.y + 1));
+            winLevel!.transform.position = winLevelPos + 0.5f * Vector2.one;
 
             foreach (var r in allRooms)
             {
-                FillRoom(r, null);
-
-                if (!r.hallway && Random.value < .5f)
+                if (Random.value < .5f) continue;
+                var numEnemies = Random.Range(1, 8);
+                for (int i = 0; i < numEnemies; i++)
                 {
-                    var numEnemies = Random.Range(1, 8);
-                    for (int i = 0; i < numEnemies; i++)
-                    {
-                        var pos = new Vector2(
-                            Random.Range(r.lowerLeft.x, r.upperRight.x + 1),
-                            Random.Range(r.lowerLeft.y, r.upperRight.y + 1));
-                        var enemy = Instantiate(enemyPrefab, transform);
-                        enemy.transform.position = pos + 0.5f * Vector2.one;
-                    }
-                }
-            }
+                    var pos = new Vector2(
+                        Random.Range(r.lowerLeft.x, r.upperRight.x + 1),
+                        Random.Range(r.lowerLeft.y, r.upperRight.y + 1));
+                    if ((pos - playerPos).magnitude < 20) continue;
 
-            foreach (var door in doors)
-            {
-                FillRoom(door, null);
+                    var enemy = Instantiate(enemyPrefab, currentLevel.transform);
+                    enemy.transform.position = pos + 0.5f * Vector2.one;
+                }
             }
         }
 
@@ -244,7 +267,6 @@ namespace PinkRain.Component
             }
 
             public Vector2Int size => Vector2Int.Max(upperRight - lowerLeft + new Vector2Int(1, 1), Vector2Int.zero);
-            public int area => size.x * size.y;
-        }
+            public int area => size.x * size.y; }
     }
 }
