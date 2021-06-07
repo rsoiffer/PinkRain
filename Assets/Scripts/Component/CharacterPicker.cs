@@ -8,12 +8,21 @@ namespace PinkRain.Component
 {
     public class CharacterPicker : MonoBehaviour
     {
+        private static readonly IReadOnlyDictionary<KeyCode, int> CharacterKeys = new Dictionary<KeyCode, int>
+        {
+            [KeyCode.Alpha1] = 0,
+            [KeyCode.Alpha2] = 1,
+            [KeyCode.Alpha3] = 2,
+            [KeyCode.Alpha4] = 3,
+            [KeyCode.Alpha5] = 4
+        };
+
         [SerializeField] private GameObject[] characterPrefabs = Array.Empty<GameObject>();
         [SerializeField] private Slider? healthSlider;
 
-        public GameObject? ActiveCharacter { get; private set; }
-
         private readonly List<GameObject> characters = new List<GameObject>();
+
+        public GameObject? ActiveCharacter { get; private set; }
 
         private void Awake()
         {
@@ -29,6 +38,11 @@ namespace PinkRain.Component
 
         private void Update()
         {
+            if (CharacterKeyDown() is { } index && index < characters.Count)
+            {
+                Activate(characters[index]);
+            }
+
             if (ActiveCharacter)
             {
                 transform.position = ActiveCharacter!.transform.position;
@@ -43,6 +57,16 @@ namespace PinkRain.Component
             {
                 otherCharacter.SetActive(otherCharacter == ActiveCharacter);
             }
+        }
+
+        private static int? CharacterKeyDown()
+        {
+            var indices =
+                from item in CharacterKeys
+                where Input.GetKeyDown(item.Key)
+                select (int?) item.Value;
+
+            return indices.FirstOrDefault();
         }
     }
 }
