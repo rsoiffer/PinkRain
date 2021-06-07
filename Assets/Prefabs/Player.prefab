@@ -44,5 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterPrefabs:
+  - {fileID: 4795851979531824237, guid: ec2df605493f50348b96db75d52cd4e7, type: 3}
   - {fileID: 4795851979531824237, guid: b1d4c069d89d45649a9f19304ba190d5, type: 3}
   - {fileID: 4795851979531824237, guid: 4c0d7d7dc71b34b41a0e342ef58705a5, type: 3}
+  - {fileID: 4795851979531824237, guid: bc18b959b73a38546b4fed79f2ebb16a, type: 3}
+  - {fileID: 4795851979531824237, guid: e9d85780f7242b34ba4090e59a04b21b, type: 3}
+  healthSlider: {fileID: 0}
