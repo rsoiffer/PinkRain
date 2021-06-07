@@ -38,7 +38,7 @@ namespace PinkRain.Component
 
         private void Update()
         {
-            if (CharacterKeyDown() is { } index && index < characters.Count)
+            if (CharacterKeyDown() is { } index && index < characters.Count && characters[index])
             {
                 Activate(characters[index]);
             }
@@ -53,9 +53,9 @@ namespace PinkRain.Component
         {
             ActiveCharacter = character;
             ActiveCharacter.transform.position = transform.position;
-            foreach (var otherCharacter in characters)
+            foreach (var c in characters.Where(c => c))
             {
-                otherCharacter.SetActive(otherCharacter == ActiveCharacter);
+                c.SetActive(c == ActiveCharacter);
             }
         }
 
